@@ -156,9 +156,13 @@ open class RAMAnimatedTabBarController: UITabBarController {
     }
     
     private func layoutContainers() {
-        let itemWidth = tabBar.bounds.width / CGFloat(containers.count)
+        let appOrientation = UIApplication.shared.statusBarOrientation
+        var screenWidth = UIScreen.main.bounds.width
+        if appOrientation.isLandscape {
+            screenWidth =  UIScreen.main.bounds.height
+        }
+        let itemWidth =  screenWidth / CGFloat(containers.count) 
         let isRTL = tabBar.userInterfaceLayoutDirection == .rightToLeft
-        
         for (index, container) in containers.enumerated() {
             let i = isRTL ? (containers.count - 1 - index) : index
             let frame = CGRect(x: itemWidth * CGFloat(i), y: 0, width: itemWidth, height: Theme.tabBarHeight)
